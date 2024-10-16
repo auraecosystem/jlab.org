@@ -1,0 +1,16 @@
+image: python:3.7-alpine
+    
+pages:
+  stage: deploy
+  before_script:
+    - apk add --no-cache make
+  script:
+    - pip install -U sphinx sphinx-rtd-theme sphinx-copybutton
+    - make html
+    - mkdir public
+    - cp -r docs/html/* public
+  artifacts:
+    paths:
+     - public
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
