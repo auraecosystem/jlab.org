@@ -9,7 +9,7 @@ GitLab Pages is a feature that allows you to publish static websites directly fr
 
 To use it:
 
-1. Enable the Container Registry for your project. 
+1. Enable the Pages for your project. 
         - Go to settings -> General -> expand “Visibility, project features, permissions” and check the “Wiki”
         - You can set the visibility of the pages according to the needs of your project.
 
