@@ -29,7 +29,7 @@ Fo example to use one of the image in my personal repo:
   docker run [options] codecr.jlab.org/panta/ladlib:v0.0.1
 
 If you container registry is needs authentication you need to login to container registry.
-Follow procedure `authenticate_with_container_registry <https://docs.gitlab.com/ee/user/packages/container_registry/authenticate_with_container_registry.html>`
+Follow procedure `authenticate_with_container_registry <https://docs.gitlab.com/ee/user/packages/container_registry/authenticate_with_container_registry.html>`_ .
 
 i.e. Once you get the access token with minimum scope `read_registry` just do following to authenticate.
 
