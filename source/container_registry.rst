@@ -28,7 +28,7 @@ Fo example to use one of the image in my personal repo:
 
   docker run [options] codecr.jlab.org/panta/ladlib:v0.0.1
 
-.. info::
+.. note::
   The container registry is visible to everyone with access to the project. 
   If the project is public, the container registry is also public
 
