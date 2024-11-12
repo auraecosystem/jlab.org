@@ -122,7 +122,7 @@ Examples are are documented here:
    - `Instance limits <https://docs.gitlab.com/ee/administration/instance_limits.html>`_
    - `CI/CD limits <https://docs.gitlab.com/ee/administration/instance_limits.html#cicd-limits>`_
 
-      - Local JLab GitLab Runner defaults are presently 4GB RAM (max 32GB); 1 thread (max 12)
+      - JLab GitLab Runner defaults are presently 4GB RAM (max 32GB); 1 thread (max 12)
 
           - See `KUBERNETES_MEMORY_LIMIT, KUBERNETES_CPU_* <https://docs.gitlab.com/runner/executors/kubernetes/#overwrite-container-resources>`_ variables
 
