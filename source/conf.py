@@ -6,9 +6,9 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = u'GitLab @JLab Documentation'
-copyright = '2024, Anil'
-author = 'Anil'
+project = u'code.jlab.org (JLab GitLab) Documentation'
+copyright = 'Thomas Jefferson National Lab'
+author = 'Thomas Jefferson National Lab'
 release = '0.0.1'
 
 # -- General configuration ---------------------------------------------------
