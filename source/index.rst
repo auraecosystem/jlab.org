@@ -15,6 +15,7 @@ Welcome to GitLab @JLab documentation!
    cicd
    pages
    container_registry
+   faqs
   
 
 
@@ -23,4 +24,5 @@ Indices and tables
 
 * :ref:`genindex`
 * :ref:`modindex`
+* :ref:`search`
 * :ref:`search`
