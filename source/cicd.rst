@@ -116,11 +116,16 @@ To use Kaniko in GitLab CI/CD where we push image to gitlab container registry:
        - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
        - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --build-arg BUILD_ARG_1=value1 --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
 
-This configuration builds a Docker image using the Dockerfile in your repository and pushes it to the GitLab Container Registry.
+This configuration builds a container image using the Dockerfile in your repository and pushes it to the GitLab Container Registry.
+
+.. note:: 
+   All the variables starting with `$CI_` are predefined variables.
+   You can see all the predefined and its meanings `here <https://docs.gitlab.com/ee/ci/variables/predefined_variables.html>`_.
+
 Let's break down each part:
 
 1. **Job Definition**:
-   The ``build`` job is defined, which will be responsible for building and pushing the Docker image.
+   The ``build`` job is defined, which will be responsible for building and pushing the container image.
 
 2. **Kaniko Executor Image**:
 
@@ -168,7 +173,7 @@ Let's break down each part:
 Pushing to Docker Hub with Kaniko
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To push your Docker image to Docker Hub using Kaniko in GitLab CI/CD, you can modify your ``.gitlab-ci.yml`` file as follows:
+To push your container image to Docker Hub using Kaniko in GitLab CI/CD, you can modify your ``.gitlab-ci.yml`` file as follows:
 
 .. code-block:: yaml
 
