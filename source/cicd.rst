@@ -120,7 +120,7 @@ This configuration builds a container image using the Dockerfile in your reposit
 
 .. note:: 
    All the variables starting with `$CI_` are predefined variables.
-   You can see all the predefined and its meanings `here <https://docs.gitlab.com/ee/ci/variables/predefined_variables.html>`_.
+   You can see all the predefined variables and its meanings `here <https://docs.gitlab.com/ee/ci/variables/predefined_variables.html>`_.
 
 Let's break down each part:
 
