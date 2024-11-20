@@ -25,9 +25,11 @@ Frequently Asked Questions (FAQs)
     .. code-block:: shell
 
        RUN dnf install -y <package> && \
-           dnf clean all && \
-           rm -rf /var/cache/dnf
+           dnf clean all
 
-  - Be mindful of large updates being pulled in. If updates are significant, consider rebuilding the container with an updated base image instead of performing in-place updates.
+  - Be mindful of large updates being pulled in. This generates bloat and can
+    greatly increase the run time of your CI/CD jobs. If updates are
+    significant, consider rebuilding the container with an updated base image
+    instead of performing in-place updates.
 
 
