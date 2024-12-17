@@ -33,3 +33,21 @@ Frequently Asked Questions (FAQs)
     instead of performing in-place updates.
 
 
+- `Limited CVMFS support within CI/CD jobs <limited_cvmfs_support>`_
+
+  - OpenShift (RedHat's Kubernetes implementation) complicates the use of CVMFS
+    within the GitLab CI/CD runners.
+
+  - As a result *only* the JLab-managed CVMFS software under the path
+    ``/cvmfs/oasis.opensciencegrid.org/jlab/`` is available for now.  The usual
+    ``module`` commands will without modification.  For example:
+
+    .. code-block:: shell
+
+      module use /cvmfs/oasis.opensciencegrid.org/jlab/scicomp/sw/el9/modulefiles
+      module use /cvmfs/oasis.opensciencegrid.org/jlab/geant4/ceInstall/modulefiles
+      module use /cvmfs/oasis.opensciencegrid.org/jlab/halla/modulefiles
+      module use /cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/sw/modulefiles
+
+      etc...
+
