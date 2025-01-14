@@ -8,10 +8,10 @@ Frequently Asked Questions (FAQs)
 - `Working with a restricted repository (ie. 'internal only', or 'private') <#restricted_repo>`_
 
   - If you set viewing restrictions on a repository ('internal only', or 'private')
-    then 'git' access to the repository should use the ``git://git@code.jlab.org/...`` URL
-    **not** the ``https://code.jlab.org/...`` URL
-  - Authentication and access are then handled using the SSH key exchange method.
+    then it is recommended to access to the repository using the ``git://git@code.jlab.org/...`` URL
+    **not** the ``https://code.jlab.org/...`` URL. Authentication and access are then handled using the SSH key exchange method.
   - See `Clone with SSH <https://docs.gitlab.com/ee/topics/git/clone.html#clone-with-ssh>`_ for details.
+  - If ``https://...`` access is required, then a `Personal Access Tocken <https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#clone-repository-using-personal-access-token>`_ should also work.
 
 - `Cloning a Repository <#cloning-a-repository>`_
 

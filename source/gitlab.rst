@@ -60,7 +60,7 @@ To create a new project:
      - Internal: Any authenticated user can access
      - Private: Only project members can access
 
-     - **NOTE**: Use the ``git://git@code.jlab.org/...`` URL for access to restricted repositories.  See `Restricted repo access <faqs#restricted_repo>`_ for additional detail.
+     - **NOTE**: Use of the ``git://git@code.jlab.org/...`` URL for access to restricted repositories is recommended.  See `Restricted repo access <faqs#restricted_repo>`_ for additional detail.
  
 5. Click "Create project".
 
