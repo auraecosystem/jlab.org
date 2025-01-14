@@ -54,11 +54,13 @@ To create a new project:
         - Subgroup namespace: For more complex organizations, you can use subgroups. The URL structure would be `https://code.jlab.org/parent-group/subgroup/project-name`
 
    - Project slug (URL): This is a URL-friendly version of your project name, automatically generated from the project name but can be customized. It will be used in the project's URL and should be unique within the namespace.
-   - Visibility level: This can ve changed later as well using  project settings -> General ( ## Visibility, project features, permissions) -> Project visibility
+   - Visibility level: This can be changed later as well using  ``Project settings -> General ( ## Visibility, project features, permissions) -> Project visibility``
 
-     - Private: Only project members can access
-     - Internal: Any authenticated user can access
      - Public: Anyone can access (useful for open-source projects)
+     - Internal: Any authenticated user can access
+     - Private: Only project members can access
+
+     - **NOTE**: Use the ``git://git@code.jlab.org/...`` URL for access to restricted repositories.  See `Restricted repo access <faqs#restricted_repo>`_ for additional detail.
  
 5. Click "Create project".
 

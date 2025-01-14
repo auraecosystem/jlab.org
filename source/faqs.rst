@@ -5,10 +5,18 @@
 Frequently Asked Questions (FAQs)
 ---------------------------------
 
+- `Working with a restricted repository (ie. 'internal only', or 'private') <#restricted_repo>`_
+
+  - If you set viewing restrictions on a repository ('internal only', or 'private')
+    then 'git' access to the repository should use the ``git://git@code.jlab.org/...`` URL
+    **not** the ``https://code.jlab.org/...`` URL
+  - Authentication and access are then handled using the SSH key exchange method.
+  - See `Clone with SSH <https://docs.gitlab.com/ee/topics/git/clone.html#clone-with-ssh>`_ for details.
+
 - `Cloning a Repository <#cloning-a-repository>`_
 
   - The ``git@code.jlab.org`` in the ``git://git@code.jlab.org/...`` URL is the correct ``username@host`` for the SSH ``git:`` protocol. Authentication (when needed) is done via SSH key exchange. You must upload a public key to your account.
-  - See `Clone a Git repository to your local computer <https://docs.gitlab.com/ee/topics/git/clone.html>`_ for details.
+  - See `Clone with SSH <https://docs.gitlab.com/ee/topics/git/clone.html#clone-with-ssh>`_ for details.
 
 - `Cleanup Instructions for Containers <#cleanup-instructions-for-containers>`_
 
@@ -38,7 +46,7 @@ Frequently Asked Questions (FAQs)
   - OpenShift (RedHat's Kubernetes implementation) complicates the use of CVMFS
     within the GitLab CI/CD runners.
 
-  - As a result *only* the JLab-managed CVMFS software under the path
+  - As a result **only** the JLab-managed CVMFS software under the path
     ``/cvmfs/oasis.opensciencegrid.org/jlab/`` is available for now.  The usual
     ``module`` commands will without modification.  For example:
 
