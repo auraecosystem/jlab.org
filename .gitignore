@@ -3,3 +3,15 @@ venv/
 
 docs/
 
+## Other trash
+*~
+*.swp
+*.swo
+
+\#*
+*.pdf
+*.so
+*.d
+.\#*
+.DS_Store
+.nfs_*
