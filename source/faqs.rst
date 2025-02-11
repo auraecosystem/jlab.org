@@ -4,23 +4,40 @@
 
 Frequently Asked Questions (FAQs)
 ---------------------------------
+- `Limits for code.jlab.org, CI/CD runners, etc <#limitations>`_
+
+  - See `JLab GitLab Limits <gitlab.html#jlab-gitlab-limits>`_ for current defaults and
+    pointers to requesting additional RAM and/or cores if required.
 
 - `Working with a restricted repository (ie. 'internal only', or 'private') <#restricted_repo>`_
 
-  - If you set viewing restrictions on a repository ('internal only', or 'private')
-    then it is recommended to access to the repository using the ``git://git@code.jlab.org/...`` URL
-    **not** the ``https://code.jlab.org/...`` URL. Authentication and access are then handled using the SSH key exchange method.
-  - See `Clone with SSH <https://docs.gitlab.com/ee/topics/git/clone.html#clone-with-ssh>`_ for details.
-  - If ``https://...`` access is required, then a `Personal Access Tocken <https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#clone-repository-using-personal-access-token>`_ should also work.
+  - If you set viewing restrictions on a repository ('internal only', or
+    'private') then it is recommended to access to the repository using the
+    ``git://git@code.jlab.org/...`` URL **not** the
+    ``https://code.jlab.org/...`` URL. Authentication and access are then
+    handled using the SSH key exchange method.
+  - See `Clone with SSH
+    <https://docs.gitlab.com/ee/topics/git/clone.html#clone-with-ssh>`_ for
+    details.
+  - If ``https://...`` access is required, then a `Personal Access Tocken
+    <https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#clone-repository-using-personal-access-token>`_
+    should also work.
 
 - `Cloning a Repository <#cloning-a-repository>`_
 
-  - The ``git@code.jlab.org`` in the ``git://git@code.jlab.org/...`` URL is the correct ``username@host`` for the SSH ``git:`` protocol. Authentication (when needed) is done via SSH key exchange. You must upload a public key to your account.
-  - See `Clone with SSH <https://docs.gitlab.com/ee/topics/git/clone.html#clone-with-ssh>`_ for details.
+  - The ``git@code.jlab.org`` in the ``git://git@code.jlab.org/...`` URL is the
+    correct ``username@host`` for the SSH ``git:`` protocol. Authentication
+    (when needed) is done via SSH key exchange. You must upload a public key to
+    your account.
+  - See `Clone with SSH
+    <https://docs.gitlab.com/ee/topics/git/clone.html#clone-with-ssh>`_ for
+    details.
 
 - `Cleanup Instructions for Containers <#cleanup-instructions-for-containers>`_
 
-  - Avoid running ``dnf install ...`` or ``dnf update`` directly in your Dockerfile or container unless absolutely necessary.
+  - Avoid running ``dnf install ...`` or ``dnf update`` directly in your
+    Dockerfile or container unless absolutely necessary.  This can take a lot
+    of time and consume significant disk resources.
   - Instead, ensure you are starting from an up-to-date base image. For example, use:
 
     .. code-block:: shell
@@ -28,7 +45,8 @@ Frequently Asked Questions (FAQs)
        FROM registry.access.redhat.com/ubi8/ubi:latest
 
     Update the base image periodically to incorporate the latest patches.
-  - If you must install or update packages, clean up after yourself to minimize image size and layer bloat:
+  - If you must install or update packages, clean up after yourself to minimize
+    image size and layer bloat:
 
     .. code-block:: shell
 
