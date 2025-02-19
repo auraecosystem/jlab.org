@@ -124,7 +124,7 @@ Examples are are documented here:
    - `Instance limits <https://docs.gitlab.com/ee/administration/instance_limits.html>`_
    - `CI/CD limits <https://docs.gitlab.com/ee/administration/instance_limits.html#cicd-limits>`_
 
-      - JLab GitLab Runner defaults are presently **4GiB RAM** (max 24GiB); **2 threads** (max 12)
+      - JLab GitLab Runner defaults are presently **10GiB RAM** (max 24GiB); **2 threads** (max 12)
 
           - Use `KUBERNETES_MEMORY_LIMIT, KUBERNETES_CPU_* <https://docs.gitlab.com/runner/executors/kubernetes/#overwrite-container-resources>`_ variables in your ``.gitlab-ci.yml`` file to adjust your request.
 
