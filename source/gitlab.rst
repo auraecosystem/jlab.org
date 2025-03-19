@@ -124,11 +124,18 @@ Examples are are documented here:
    - `Instance limits <https://docs.gitlab.com/ee/administration/instance_limits.html>`_
    - `CI/CD limits <https://docs.gitlab.com/ee/administration/instance_limits.html#cicd-limits>`_
 
-      - JLab GitLab Runner defaults are presently **10GiB RAM** (max 24GiB); **2 threads** (max 12)
+      - JLab GitLab Runner defaults are presently
 
-          - Use `KUBERNETES_MEMORY_LIMIT, KUBERNETES_CPU_* <https://docs.gitlab.com/runner/executors/kubernetes/#overwrite-container-resources>`_ variables in your ``.gitlab-ci.yml`` file to adjust your request.
+        - **10GiB RAM** (max 32GiB) and **8 threads** (max 16)
+
+        - Use `KUBERNETES_MEMORY_LIMIT, KUBERNETES_CPU_* <https://docs.gitlab.com/runner/executors/kubernetes/#overwrite-container-resources>`_ variables in your ``.gitlab-ci.yml`` file to adjust your request.
 
         Note that bigger numbers may mean that the runner takes longer to schedule.
+
+      - **NOTE**: Common methods to query the system for available RAM and available threads (ie. ``$(nproc)``, looking under ``/proc`` or ``/sys``, and/or asking other user-space tools) will **NOT** return values useful to your job.  Instead, you can use the following shell variables:
+
+        - ``JL_RUNNER_AVAIL_CPU``: the number of threads assigned to the runner
+        - ``JL_RUNNER_AVAIL_MEM``: the amount of memory (in bytes) available to the runner
 
    - `Number of files per Pages Website <https://docs.gitlab.com/ee/administration/instance_limits.html#number-of-files-per-gitlab-pages-website>`_ 
    - `Package registry limits <https://docs.gitlab.com/ee/administration/instance_limits.html#package-registry-limits>`_
