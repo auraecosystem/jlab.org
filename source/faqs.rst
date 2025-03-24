@@ -77,3 +77,7 @@ Frequently Asked Questions (FAQs)
 
       etc...
 
+- `Stale account deactivation <stale_accounts>`_
+
+  - Accounts on code.jlab.org that have been dormant for 1 year will be deactivated.
+    They can be reactivated upon request.
