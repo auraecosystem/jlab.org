@@ -76,8 +76,3 @@ Frequently Asked Questions (FAQs)
       module use /cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/sw/modulefiles
 
       etc...
-
-- `Stale account deactivation <stale_accounts>`_
-
-  - Accounts on code.jlab.org that have been dormant for 1 year will be deactivated.
-    They can be reactivated upon request.

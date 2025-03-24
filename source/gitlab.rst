@@ -6,8 +6,8 @@ GitLab @JLab
 ============
 The JLab User Gitlab instance is available here: `<https://code.jlab.org/>`_ .
 
-Login Procedure
----------------
+Interactive Login Procedure
+---------------------------
 Once you go to the site you will see the login page and select "Login with your institution Credentials" button.
 
 Then you will land in following page:
@@ -20,18 +20,19 @@ Then you will land in following page:
 
 The default permission and resource level depends which authentication method you choose on your first login.
 
-1. JLab login (Everyone with an @jlab.org account should do this!)
+1. JLab CUE Authentication (Everyone with an @jlab.org account should do this!)
     a. You will be automatically granted access to a number of Hall, Experiment, and/or Division GitLab groups based on your CUE unix group assignments.
     b. You will be automatically granted space to create and manage personal repositories.
     c. @jlab.org account holders are assigned additional privileges based on what JLab unix groups they are in when their GitLab account is initially created. 
        Additional permissions can be granted by emailing their `Compute Coordinator <https://jlab.servicenowservices.com/kb?id=kb_article_view&sysparm_article=KB0014686>`_ and explaining what they would like to do.
 
-2. Other login:
+2. External/Federated Authentication:
     a. You will only have read only access to open/public projects.
     b. For anything else, someone would need to grant you privileges to the repositories. Please talk to your `Compute Coordinator <https://jlab.servicenowservices.com/kb?id=kb_article_view&sysparm_article=KB0014686>`_ .
 
 .. note:: 
-  To search for repos public or internal groups (that you are part of) please got to the `link <https://code.jlab.org/explore/groups>`_
+  - Dormant accounts will be deactivated after 1 year.  They can be reactivated upon request.
+  - You can search for public repos and/or internal groups (that you are part of) using <https://code.jlab.org/explore/groups>
 
 Create/Import Projects
 ----------------------
@@ -60,7 +61,8 @@ To create a new project:
      - Internal: Any authenticated user can access
      - Private: Only project members can access
 
-     - **NOTE**: Use of the ``git://git@code.jlab.org/...`` URL for access to restricted repositories is recommended.  See `Restricted repo access <faqs#restricted_repo>`_ for additional detail.
+.. note::
+   Use of the ``git://git@code.jlab.org/...`` URL for access to restricted repositories is recommended.  See `Restricted repo access <faqs#restricted_repo>`_ for additional detail.
  
 5. Click "Create project".
 
