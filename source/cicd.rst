@@ -32,9 +32,10 @@ Activating Pipelines for a Repository
 
 To activate CI/CD pipelines for your GitLab repository:
 
-1. Create a ``.gitlab-ci.yml`` file in the root of your repository
-2. Commit and push the file to your GitLab repository
-3. GitLab will automatically detect the file and start running your pipeline
+#. Ensure pipelines are enabled under the repo Settings:CI/CD.  (This should be the default for any new projects.)
+#. Create a ``.gitlab-ci.yml`` file in the root of your repository
+#. Commit and push the file to your GitLab repository
+#. GitLab will automatically detect the file and start running your pipeline
 
 .gitlab-ci.yml File
 -------------------
@@ -75,13 +76,13 @@ Here's a basic example:
 Key Components
 ^^^^^^^^^^^^^^
 
-1. **Stages**: Define the order of execution for your jobs. In the example above, we have three stages: build, test, and deploy.
+#. **Stages**: Define the order of execution for your jobs. In the example above, we have three stages: build, test, and deploy.
 
-2. **Jobs**: Each job (like ``build_job``, ``test_job``, ``deploy_job``) represents a specific task in your pipeline. More info `here <https://docs.gitlab.com/ee/ci/jobs/index.html>`_
+#. **Jobs**: Each job (like ``build_job``, ``test_job``, ``deploy_job``) represents a specific task in your pipeline. More info `here <https://docs.gitlab.com/ee/ci/jobs/index.html>`_
 
-3. **Script**: The ``script`` section in each job defines the commands to be executed.
+#. **Script**: The ``script`` section in each job defines the commands to be executed.
 
-4. **Stage Assignment**: Each job is assigned to a stage using the ``stage`` keyword.
+#. **Stage Assignment**: Each job is assigned to a stage using the ``stage`` keyword.
 
 Advanced Features
 ^^^^^^^^^^^^^^^^^
@@ -124,10 +125,10 @@ This configuration builds a container image using the Dockerfile in your reposit
 
 Let's break down each part:
 
-1. **Job Definition**:
+#. **Job Definition**:
    The ``build`` job is defined, which will be responsible for building and pushing the container image.
 
-2. **Kaniko Executor Image**:
+#. **Kaniko Executor Image**:
 
    .. code-block:: yaml
 
@@ -137,7 +138,7 @@ Let's break down each part:
 
    This specifies the Kaniko executor image to use. The ``debug`` version is used, which includes a shell for troubleshooting. The ``entrypoint`` is set to an empty array to override the default entrypoint.
 
-3. **Script Section**:
+#. **Script Section**:
    The ``script`` section contains the commands to be executed:
 
    a. **Create Docker config directory**:
@@ -195,15 +196,15 @@ To push your container image to Docker Hub using Kaniko in GitLab CI/CD, you can
 
 Key changes:
 
-1. **Authentication**: We're now using Docker Hub credentials instead of GitLab registry credentials.
+#. **Authentication**: We're now using Docker Hub credentials instead of GitLab registry credentials.
 
-2. **Variables**: ``DOCKER_USERNAME`` and ``DOCKER_PASSWORD`` are set using GitLab CI/CD variables. Make sure to set these in your GitLab project's CI/CD settings. To define variables see info `here <https://docs.gitlab.com/ee/ci/variables/#define-a-cicd-variable-in-the-ui>`_ .
+#. **Variables**: ``DOCKER_USERNAME`` and ``DOCKER_PASSWORD`` are set using GitLab CI/CD variables. Make sure to set these in your GitLab project's CI/CD settings. To define variables see info `here <https://docs.gitlab.com/ee/ci/variables/#define-a-cicd-variable-in-the-ui>`_ .
 
-3. **Registry URL**: The authentication JSON now uses ``https://index.docker.io/v1/``, which is the Docker Hub registry URL.
+#. **Registry URL**: The authentication JSON now uses ``https://index.docker.io/v1/``, which is the Docker Hub registry URL.
 
-4. **Destination**: The ``--destination`` flag now points to your Docker Hub repository. It uses the format ``repository:tag``.
+#. **Destination**: The ``--destination`` flag now points to your Docker Hub repository. It uses the format ``repository:tag``.
 
-5. **Multiple tags**: We're pushing both a tagged version and a ``latest`` version of the image.
+#. **Multiple tags**: We're pushing both a tagged version and a ``latest`` version of the image.
 
 .. note::
     Here we are pushing the image to dockerhub in the ``$DOCKERHUB_USERNAME`` namespace and the container name is assumed same as ``$CI_PROJECT_NAME``. You can change these to other username and image name as you like. We are tagging it with both the commit tag ``$CI_COMMIT_TAG`` and ``latest``.
