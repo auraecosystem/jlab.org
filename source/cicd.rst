@@ -32,7 +32,7 @@ Activating Pipelines for a Repository
 
 To activate CI/CD pipelines for your GitLab repository:
 
-#. Ensure pipelines are enabled under the repo Settings:CI/CD.  (This should be the default for any new projects.)
+#. Ensure CI/CD is enabled under the repo Settings:General:Visibility,project features, permissions:Repository:CI/CD.  (This should be the default for any new projects.)
 #. Create a ``.gitlab-ci.yml`` file in the root of your repository
 #. Commit and push the file to your GitLab repository
 #. GitLab will automatically detect the file and start running your pipeline
