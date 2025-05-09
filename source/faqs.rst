@@ -19,9 +19,27 @@ Frequently Asked Questions (FAQs)
   - See `Clone with SSH
     <https://docs.gitlab.com/ee/topics/git/clone.html#clone-with-ssh>`_ for
     details.
-  - If ``https://...`` access is required, then a `Personal Access Tocken
+  - If ``https://...`` access is required, then a `Personal Access Token
     <https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#clone-repository-using-personal-access-token>`_
     should also work.
+
+- `Command line access to code.jlab.org and codecr.jlab.org <#PAT>`_
+
+  - Generate a `Personal Access Token
+    <https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html>`_
+    from within your ``code.jlab.org`` account.
+
+    - Ensure that you select the appropriate scope(s) for the token (see the
+      'Learn more' link on the 'Access Token' for specifics.
+  - Retrieve the token and install it in your ``$HOME/.config/containers/auth.json`` file.
+    podman should be able to use that token to authenticate
+
+  .. code-block:: shell
+
+      RUN podman login codecr.jlab.org
+      - OR -
+      RUN podman --authfile="$HOME/.config/containers/auth.json" login codecr.jlab.org
+
 
 - `Cloning a Repository <#cloning-a-repository>`_
 
