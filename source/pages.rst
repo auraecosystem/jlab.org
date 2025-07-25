@@ -5,7 +5,7 @@
 GitLab Pages
 ------------
 
-GitLab Pages is a feature that allows you to publish static websites directly from a repository in GitLab. 
+GitLab Pages is a feature that allows you to publish static websites directly from a repository hosted on ``code.jlab.org``.
 
 To use it:
 
