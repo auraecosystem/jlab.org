@@ -101,7 +101,7 @@ The ``.gitlab-ci.yml`` file supports many advanced features, including:
 Container Building with Kaniko
 ------------------------------
 
-code.jlab.org currently provides only `Kaniko <https://github.com/GoogleContainerTools/kaniko>`_ for container build. Kaniko is a tool for building container images inside a container or Kubernetes cluster without requiring a Docker daemon. 
+code.jlab.org currently provides `Kaniko <https://aarongoldenthal.com/posts/google-kaniko-is-dead-long-live-chainguard-kaniko/>`_ for container build. Kaniko is a tool for building container images inside a container or Kubernetes cluster without requiring a Docker daemon. 
 Information on how to use Kaniko in gitlab ci/cd is `here <https://docs.gitlab.com/ee/ci/docker/using_kaniko.html#building-a-docker-image-with-kaniko>`_.
 
 To use Kaniko in GitLab CI/CD where we push image to gitlab container registry:
@@ -110,7 +110,7 @@ To use Kaniko in GitLab CI/CD where we push image to gitlab container registry:
 
    build:
      image:
-       name: gcr.io/kaniko-project/executor:debug
+       name: registry.gitlab.com/gitlab-ci-utils/container-images/kaniko:debug
        entrypoint: [""]
      script:
        - mkdir -p /kaniko/.docker
@@ -133,7 +133,7 @@ Let's break down each part:
    .. code-block:: yaml
 
       image:
-        name: gcr.io/kaniko-project/executor:debug
+        name: registry.gitlab.com/gitlab-ci-utils/container-images/kaniko:debug
         entrypoint: [""]
 
    This specifies the Kaniko executor image to use. The ``debug`` version is used, which includes a shell for troubleshooting. The ``entrypoint`` is set to an empty array to override the default entrypoint.
@@ -180,7 +180,7 @@ To push your container image to Docker Hub using Kaniko in GitLab CI/CD, you can
 
    build:
      image:
-       name: gcr.io/kaniko-project/executor:debug
+       name: registry.gitlab.com/gitlab-ci-utils/container-images/kaniko:debug
        entrypoint: [""]
      variables:
        DOCKER_USERNAME: $DOCKERHUB_USERNAME
