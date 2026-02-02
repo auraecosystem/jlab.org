@@ -1,17 +1,56 @@
+# If using virtualenv or venv
+.venv/
 venv/
-.env/
+env/
 
-docs/
+# VSCode or PyCharm
+.vscode/
+.idea/
 
-## Other trash
-*~
-*.swp
-*.swo
-
-\#*
+# ========================
+# NODE (React frontend)
+# ========================
+.docusaurus/
 *.pdf
-*.so
-*.d
-.\#*
+
+# ========================
+# NODE (React frontend)
+# ========================
+node_modules/
+dist/
+build/
+.vite/
+*.log
+.npmrc
+.env.local
+.env.development
+.env.production
+
+# ========================
+# NGINX / Docker
+# ========================
+/nginx/certs/
+/nginx/conf.d/*.bak
+/nginx/logs/
+*.pid
+
+# Docker
+*.tar
+*.img
+Dockerfile.*
+docker-compose.override.yml
+
+# =============
+# SYSTEM FILES
+# =============
 .DS_Store
+Thumbs.db
+*.swp
+*~
+\#*
+.\#*
 .nfs_*
+
+__pycache__/
+*.pyc
+node_modules/

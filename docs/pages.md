@@ -1,6 +1,10 @@
-.. highlight:: shell
-
-.. _pages:
+---
+title: GitLab Pages
+version: 0.1
+hide_table_of_contents: false
+lastUpdated: 2026-2-2
+authors: Anil Panta and Casey Morean (STRIDE team)
+---
 
 GitLab Pages
 ------------
