@@ -10,7 +10,7 @@ authors: Anil Panta and Casey Morean (STRIDE team)
 
 - [Limits for code.jlab.org, CI/CD runners, etc](#limitations)
 
-  - See [JLab GitLab Limits](gitlab.html#jlab-gitlab-limits) for current defaults and
+  - See [JLab GitLab Limits](./gitlab#jlab-gitlab-limits) for current defaults and
     pointers to requesting additional RAM and/or cores if required.
 
 - [Working with a restricted repository (ie. "internal only", or "private")](#restricted_repo)

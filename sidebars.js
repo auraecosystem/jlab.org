@@ -11,6 +11,7 @@ const sidebars = {
     { type: 'doc', id: 'cicd', label: 'GitLab CI/CD' },
     { type: 'doc', id: 'pages', label: 'GitLab Pages' },
     { type: 'doc', id: 'container_registry', label: 'Container Registry' },
+    { type: 'doc', id: 'model_registry', label: 'Model Registry' },
     { type: 'doc', id: 'faqs', label: 'FAQs' },
   ],
 };
