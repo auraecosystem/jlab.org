@@ -16,6 +16,17 @@ export default {
   },
   themes: ['@docusaurus/theme-mermaid'],
 
+  plugins: [
+    [
+      require.resolve('@easyops-cn/docusaurus-search-local'),
+      {
+        hashed: true,
+        docsRouteBasePath: '/', // matches your docs config
+        highlightSearchTermsOnTargetPage: true,
+      },
+    ],
+  ],
+
   presets: [
     [
       'classic',
@@ -47,6 +58,10 @@ export default {
           position: 'left',
           label: 'Docs',
         },
+        {
+          type: 'search',
+          position: 'right',
+        },  
       ],
     },
     prism: {

@@ -1,0 +1,73 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.card {
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 14px;
+  padding: 16px;
+  background: var(--ifm-background-surface-color);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.emoji {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.card p {
+  margin: 0 0 10px 0;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.cta {
+  font-weight: 600;
+  color: var(--ifm-color-primary);
+}
+
+.quickLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  text-decoration: none;
+  color: inherit;
+  background: var(--ifm-background-surface-color);
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.button:hover {
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+}

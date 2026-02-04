@@ -6,24 +6,22 @@ lastUpdated: 2026-2-2
 authors: Anil Panta and Casey Morean (STRIDE team)
 ---
 
-{/* Converted from reStructuredText to MDX */}
+# GitLab Community Edition at Jefferson Lab
+---
+The Jefferson Lab user Gitlab instance is available at 
+***[`code.jlab.org/`](https://code.jlab.org/)***
 
-<a id="gitlab"></a>
-
-# GitLab @JLab
-
-The JLab User Gitlab instance is available here: [https://code.jlab.org/](https://code.jlab.org/).
+GitLab CE is the free, and open-source edition of GitLab.  
 
 ## Interactive Login Procedure
 
-Once you go to the site you will see the login page and select **"Login with your institution Credentials"** button.
+GitLab uses a federated login.  Once on the landing page, select **"Sign In"** followed by **"Login with your institution Credentials"** button.
 
-Then you will land in following page:
+You will land in following page:
 
 <img
   src={require('./img/gitlab/login_page.png').default}
   alt="GitLab Login Page"
-  style={{ display: 'block', margin: '0 auto', maxWidth: '600px' }}
 />
 ---
 
@@ -41,12 +39,10 @@ The default permission and resource level depends which authentication method yo
 
 > **Note**
 > - Dormant accounts will be deactivated after 1 year. They can be reactivated upon request.
-> - You can search for public repos and/or internal groups (that you are part of) using [https://code.jlab.org/explore/groups](https://code.jlab.org/explore/groups)
-
----
+> - You can search for public repos and/or internal groups (that you are part of) using [`code.jlab.org/explore/groups`](https://code.jlab.org/explore/groups)
 
 ## Create/Import Projects
-
+---
 ### Creating a New Project
 
 To create a new project:
@@ -110,12 +106,12 @@ Using a Personal Access Token, first generate a GitHub personal access token:
 - Copy the generated token (you won't be able to see it again)
 
 5. Paste your GitHub personal access token
-6. Click **"List your GitHub repositories"**
+6. Upon clicking **`Authenticate`** your GitHub repositories will be listed.
 7. Select the repositories you want to import
-8. For each repository, you can:
-   - Change the target namespace (where it will be imported in GitLab)
-   - Change the target repository name
-   - Set the visibility level (Private, Internal, or Public)
+8. For each repository:
+   - You Can Change the target namespace (where it will be imported in GitLab)
+   - You Can Change the target repository name
+   - Visibility will follow the rules set in the original repository
 9. Click **"Import"** to start the import process.
 
 **Tips for a smooth import:**
@@ -126,28 +122,50 @@ Using a Personal Access Token, first generate a GitHub personal access token:
 
 After the import is complete, you'll have a fully functional GitLab project with your GitHub repository's history, branches, and tags. Issues, pull requests, and wiki pages will also be imported if you selected those options.
 
+For additional details and up-to-date instructions, follow the official **[GitLab CE import documentation](https://docs.gitlab.com/user/project/import/github/)**.
+
 ---
 
 ## JLab GitLab Limits
 
-Most of the settings for the JLab GitLab instance match the upstream defaults. Examples are documented here:
+Most settings in the JLab GitLab instance follow upstream defaults. See GitLab’s official documentation for baseline behavior:
 
-- [Account and limit settings](https://docs.gitlab.com/ee/administration/settings/account_and_limit_settings.html)
-- [Instance limits](https://docs.gitlab.com/ee/administration/instance_limits.html)
-- [CI/CD limits](https://docs.gitlab.com/ee/administration/instance_limits.html#cicd-limits)
+* [Account and limit settings](https://docs.gitlab.com/ee/administration/settings/account_and_limit_settings.html)
+* [Instance limits](https://docs.gitlab.com/ee/administration/instance_limits.html)
+* [CI/CD limits](https://docs.gitlab.com/ee/administration/instance_limits.html#cicd-limits)
+* [Number of files per Pages Website](https://docs.gitlab.com/ee/administration/instance_limits.html#number-of-files-per-gitlab-pages-website)
+* [Package registry limits](https://docs.gitlab.com/ee/administration/instance_limits.html#package-registry-limits)
 
-  - JLab GitLab Runner defaults are presently
+---
 
-    - **10GiB RAM** (max 32GiB) and **8 threads** (max 16)
+### Runner resource defaults
 
-    - Use [KUBERNETES_MEMORY_LIMIT, KUBERNETES_CPU_*](https://docs.gitlab.com/runner/executors/kubernetes/#overwrite-container-resources) variables in your `.gitlab-ci.yml` file to adjust your request.
+JLab GitLab Runners currently use the following defaults:
 
-    Note that bigger numbers may mean that the runner takes longer to schedule.
+| Resource | Default   | Maximum    |
+| -------- | --------- | ---------- |
+| Memory   | 10 GiB    | 32 GiB     |
+| CPU      | 8 threads | 16 threads |
 
-  - **NOTE**: Common methods to query the system for available RAM and available threads (ie. `$(nproc)`, looking under `/proc` or `/sys`, and/or asking other user-space tools) will **NOT** return values useful to your job. Instead, you can use the following shell variables:
+You can request different resources in `.gitlab-ci.yml` using:
 
-    - `JL_RUNNER_AVAIL_CPU`: the number of threads assigned to the runner
-    - `JL_RUNNER_AVAIL_MEM`: the amount of memory (in bytes) available to the runner
+[KUBERNETES_MEMORY_LIMIT, KUBERNETES_CPU_*](https://docs.gitlab.com/runner/executors/kubernetes/#overwrite-container-resources)
 
-- [Number of files per Pages Website](https://docs.gitlab.com/ee/administration/instance_limits.html#number-of-files-per-gitlab-pages-website)
-- [Package registry limits](https://docs.gitlab.com/ee/administration/instance_limits.html#package-registry-limits)
+> Larger resource requests may increase scheduling time.
+
+---
+
+### Resource detection inside jobs
+
+Standard system introspection tools do **not** report usable values inside runner jobs. This includes:
+
+* `$(nproc)`
+* `/proc` or `/sys`
+* typical user-space hardware utilities
+
+Instead, use the runner-provided environment variables:
+
+* `JL_RUNNER_AVAIL_CPU` — threads assigned to the runner
+* `JL_RUNNER_AVAIL_MEM` — available memory in **bytes**
+
+These values reflect the actual limits enforced for your job.

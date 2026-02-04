@@ -7,7 +7,7 @@
 const sidebars = {
   tutorialSidebar: [
     { type: 'doc', id: 'intro', label: 'Welcome' },
-    { type: 'doc', id: 'gitlab', label: 'GitLab @ JLab' },
+    { type: 'doc', id: 'gitlab', label: 'GitLab At JLab' },
     { type: 'doc', id: 'cicd', label: 'GitLab CI/CD' },
     { type: 'doc', id: 'pages', label: 'GitLab Pages' },
     { type: 'doc', id: 'container_registry', label: 'Container Registry' },
