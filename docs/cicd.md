@@ -202,14 +202,152 @@ Key changes:
 > **Note**
 > Here we are pushing the image to dockerhub in the `$DOCKERHUB_USERNAME` namespace and the container name is assumed same as `$CI_PROJECT_NAME`. You can change these to other username and image name as you like. We are tagging it with both the commit tag `$CI_COMMIT_TAG` and `latest`.
 
-## Note on Buildah and Multi-arch Builds
+---
 
-It's important to note that Buildah, another container building tool, is not available in JLab GitLab CI/CD. Additionally, multi-architecture builds are also NOT supported in the JLab GitLab CI/CD setup.
-We are working on it to make it available in near future.
+## Container Building with Buildah
 
-> **Warning**
-> Buildah is currently NOT available.
-> Muti-Archicture container image builds are currently NOT available.
-> (only AMD based container image build is available)
+Buildah is a daemonless container image build tool that can run inside a CI job container. Unlike Docker builds, Buildah does **not** require Docker-in-Docker (DinD). This makes it a good fit for Kubernetes-based GitLab runners—**if** the runner security profile allows the necessary kernel features (notably user namespaces for rootless builds).
 
+> **Important**
+> Buildah success in Kubernetes CI depends heavily on runner configuration (seccomp/apparmor, user namespaces, storage driver support, UID/GID/FSGroup behavior, etc.). If builds fail, check the troubleshooting notes below.
+
+---
+
+## Example: Build and Push to the GitLab Container Registry
+
+This example builds from a Dockerfile in your repository and pushes to the **GitLab Container Registry** with two tags:
+
+* `build-<timestamp>`
+* `latest`
+
+```yaml
+stages: [build]
+
+variables:
+  # Rootless-friendly defaults for restricted Kubernetes runners.
+  STORAGE_DRIVER: "vfs"
+  BUILDAH_ISOLATION: "chroot"
+  BUILDAH_FORMAT: "docker"
+
+  # Use /tmp for runtime/temp to avoid odd workspace mount behaviors.
+  TMPDIR: "/tmp"
+  XDG_RUNTIME_DIR: "/tmp/xdg_runtime"
+
+build_and_push_gitlab_registry:
+  stage: build
+  image: registry-gitlab.jlab.org/containers/buildah:latest
+  script:
+    - set -euo pipefail
+    - export DATE="$(date "+%Y%m%d-%H%M%S")"
+
+    # Login to GitLab registry
+    - buildah login -u "${CI_REGISTRY_USER}" -p "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
+
+    # Build
+    - buildah bud
+        --storage-driver "${STORAGE_DRIVER}"
+        --isolation "${BUILDAH_ISOLATION}"
+        --format "${BUILDAH_FORMAT}"
+        -f "${CI_PROJECT_DIR}/Dockerfile"
+        -t "${CI_REGISTRY_IMAGE}:build-${DATE}"
+        -t "${CI_REGISTRY_IMAGE}:latest"
+        --build-arg CI_JOB_TOKEN="${CI_JOB_TOKEN}"
+        .
+
+    # Push
+    - buildah push "${CI_REGISTRY_IMAGE}:build-${DATE}"
+    - buildah push "${CI_REGISTRY_IMAGE}:latest"
 ```
+
+### Notes
+
+* `STORAGE_DRIVER=vfs` is slower than overlay, but is the most reliable option in constrained Kubernetes environments.
+* `BUILDAH_ISOLATION=chroot` is a common workaround when other isolation modes are blocked.
+
+---
+
+## Example: Push to Docker Hub and GitLab Registry in the Same Pipeline
+
+If you want to push the **same build** to both registries, you can:
+
+1. build once with local tags
+2. tag for each registry
+3. push to both
+
+### Required CI/CD variables (Docker Hub)
+
+Define these in GitLab **Settings → CI/CD → Variables**:
+
+* `DOCKERHUB_USERNAME`
+* `DOCKERHUB_TOKEN` (recommended) or `DOCKERHUB_PASSWORD`
+
+```yaml
+stages: [build]
+
+variables:
+  STORAGE_DRIVER: "vfs"
+  BUILDAH_ISOLATION: "chroot"
+  BUILDAH_FORMAT: "docker"
+  TMPDIR: "/tmp"
+  XDG_RUNTIME_DIR: "/tmp/xdg_runtime"
+
+build_and_push_gitlab_and_dockerhub:
+  stage: build
+  image: registry-gitlab.jlab.org/containers/buildah:latest
+  script:
+    - set -euo pipefail
+    - export DATE="$(date "+%Y%m%d-%H%M%S")"
+    - export LOCAL_TAG="local/${CI_PROJECT_NAME}:build-${DATE}"
+
+    # Build once locally
+    - buildah bud
+        --storage-driver "${STORAGE_DRIVER}"
+        --isolation "${BUILDAH_ISOLATION}"
+        --format "${BUILDAH_FORMAT}"
+        -f "${CI_PROJECT_DIR}/Dockerfile"
+        -t "${LOCAL_TAG}"
+        --build-arg CI_JOB_TOKEN="${CI_JOB_TOKEN}"
+        .
+
+    # --- GitLab Container Registry ---
+    - buildah login -u "${CI_REGISTRY_USER}" -p "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
+    - buildah tag "${LOCAL_TAG}" "${CI_REGISTRY_IMAGE}:build-${DATE}"
+    - buildah tag "${LOCAL_TAG}" "${CI_REGISTRY_IMAGE}:latest"
+    - buildah push "${CI_REGISTRY_IMAGE}:build-${DATE}"
+    - buildah push "${CI_REGISTRY_IMAGE}:latest"
+
+    # --- Docker Hub ---
+    # Recommended: use a token (DOCKERHUB_TOKEN) rather than a password.
+    - buildah login -u "${DOCKERHUB_USERNAME}" -p "${DOCKERHUB_TOKEN}" docker.io
+
+    # Choose your Docker Hub repo naming convention:
+    # docker.io/<username>/<image>:tag
+    - export DOCKERHUB_IMAGE="docker.io/${DOCKERHUB_USERNAME}/${CI_PROJECT_NAME}"
+    - buildah tag "${LOCAL_TAG}" "${DOCKERHUB_IMAGE}:build-${DATE}"
+    - buildah tag "${LOCAL_TAG}" "${DOCKERHUB_IMAGE}:latest"
+    - buildah push "${DOCKERHUB_IMAGE}:build-${DATE}"
+    - buildah push "${DOCKERHUB_IMAGE}:latest"
+```
+
+---
+
+## Troubleshooting and Runner Constraints
+
+In some Kubernetes CI environments, the Git checkout volume is mounted with restrictive options (examples: `noexec`, disallowed `chmod`, UID/GID mismatch between build container and helper container). If you see odd permission errors:
+
+* Prefer `bash script.sh` over `./script.sh` (works even when execute bits are ignored).
+* Keep temp/runtime paths in `/tmp` (e.g., `TMPDIR=/tmp`, `XDG_RUNTIME_DIR=/tmp/...`).
+* If artifact upload fails due to permissions, ensure outputs are readable by the helper container:
+
+  * `chmod -R a+rX results || true`
+
+---
+
+## Note on Multi-arch Builds
+
+It's important to note that multi-architecture builds are currently **NOT supported** in the JLab GitLab CI/CD setup.  In advanced setups, you can [register your own runner](https://docs.gitlab.com/runner/register/) to target other architectures like ARM.
+
+:::caution
+Multi-architecture container image builds are currently **NOT** available.
+Only AMD-based container image builds are available.
+:::

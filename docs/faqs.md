@@ -9,87 +9,138 @@ authors: Anil Panta and Casey Morean (STRIDE team)
 ## Frequently Asked Questions (FAQs)
 
 - [Limits for code.jlab.org, CI/CD runners, etc](#limitations)
+- [Working with a restricted repository](#restricted-repo)
+- [Command line access using Personal Access Tokens](#pat)
+- [Cloning a repository](#cloning-a-repository)
+- [Cleanup instructions for containers](#cleanup-instructions-for-containers)
+- [Limited CVMFS support within CI/CD jobs](#limited-cvmfs-support)
 
-  - See [JLab GitLab Limits](./gitlab#jlab-gitlab-limits) for current defaults and
-    pointers to requesting additional RAM and/or cores if required.
+---
 
-- [Working with a restricted repository (ie. "internal only", or "private")](#restricted_repo)
+### Limits for code.jlab.org, CI/CD runners, etc {#limitations}
 
-  - If you set viewing restrictions on a repository ("internal only", or
-    "private") then it is recommended to access to the repository using the
-    `git://git@code.jlab.org/...` URL **not** the
-    `https://code.jlab.org/...` URL. Authentication and access are then
-    handled using the SSH key exchange method.
-  - See [Clone with SSH](https://docs.gitlab.com/ee/topics/git/clone.html#clone-with-ssh) for
-    details.
-  - If `https://...` access is required, then a [Personal Access Token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#clone-repository-using-personal-access-token)
-    should also work.
+See [JLab GitLab Limits](./gitlab#jlab-gitlab-limits) for current defaults and
+instructions for requesting additional RAM and/or CPU cores if required.
 
-- [Command line access to code.jlab.org and codecr.jlab.org](#PAT)
+---
 
-  - Generate a [Personal Access Token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html)
-    from within your `code.jlab.org` account.
+### Working with a restricted repository {#restricted-repo}
 
-    - Ensure that you select the appropriate scope(s) for the token (see the
-      "Learn more" link on the "Access Token" for specifics.
-  - Retrieve the token and install it in your `$HOME/.config/containers/auth.json` file.
-    podman should be able to use that token to authenticate
+If you set viewing restrictions on a repository (“internal only” or
+“private”), it is recommended to access the repository using the SSH URL:
 
-  ```shell
-  RUN podman login codecr.jlab.org
-  - OR -
-  RUN podman --authfile="$HOME/.config/containers/auth.json" login codecr.jlab.org
+```
+
+git://git@code.jlab.org/...
+
+```
+
+rather than the HTTPS URL:
+
+```
+
+[https://code.jlab.org/](https://code.jlab.org/)...
+
+```
+
+Authentication and access are handled using SSH key exchange.
+
+See:  
+👉 [Clone with SSH](https://docs.gitlab.com/ee/topics/git/clone.html#clone-with-ssh)
+
+If HTTPS access is required, a Personal Access Token can be used instead:
+
+👉 [Clone using Personal Access Token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#clone-repository-using-personal-access-token)
+
+---
+
+### Command line access using Personal Access Tokens {#pat}
+
+Generate a Personal Access Token from your `code.jlab.org` account:
+
+👉 [Create a Personal Access Token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html)
+
+Make sure you select appropriate token scopes. The “Learn more” link in the
+GitLab UI explains what each scope allows.
+
+Once created, store the token in:
+
+```
+
+$HOME/.config/containers/auth.json
+
 ````
 
-* [Cloning a Repository](#cloning-a-repository)
+Podman will automatically use this file for authentication.
 
-  * The `git@code.jlab.org` in the `git://git@code.jlab.org/...` URL is the
-    correct `username@host` for the SSH `git:` protocol. Authentication
-    (when needed) is done via SSH key exchange. You must upload a public key to
-    your account.
-  * See [Clone with SSH](https://docs.gitlab.com/ee/topics/git/clone.html#clone-with-ssh) for
-    details.
+Example login commands:
 
-* [Cleanup Instructions for Containers](#cleanup-instructions-for-containers)
+```shell
+podman login codecr.jlab.org
+# OR
+podman --authfile="$HOME/.config/containers/auth.json" login codecr.jlab.org
+````
 
-  * Avoid running `dnf install ...` or `dnf update` directly in your
-    Dockerfile or container unless absolutely necessary. This can take a lot
-    of time and consume significant disk resources.
-  * Instead, ensure you are starting from an up-to-date base image. For example, use:
+---
 
-  ```shell
-  FROM registry.access.redhat.com/ubi8/ubi:latest
-  ```
+### Cloning a repository {#cloning-a-repository}
 
-  Update the base image periodically to incorporate the latest patches.
+The `git@code.jlab.org` portion of the URL:
 
-  * If you must install or update packages, clean up after yourself to minimize
-    image size and layer bloat:
+```
+git://git@code.jlab.org/...
+```
 
-  ```shell
-  RUN dnf install -y <package> && \
-      dnf clean all
-  ```
+is the correct `username@host` format for SSH-based Git access.
 
-  * Be mindful of large updates being pulled in. This generates bloat and can
-    greatly increase the run time of your CI/CD jobs. If updates are
-    significant, consider rebuilding the container with an updated base image
-    instead of performing in-place updates.
+Authentication is performed using SSH keys. You must upload your public SSH
+key to your GitLab account before cloning.
 
-* [Limited CVMFS support within CI/CD jobs](#limited_cvmfs_support)
+See:
+👉 [Clone with SSH](https://docs.gitlab.com/ee/topics/git/clone.html#clone-with-ssh)
 
-  * OpenShift (RedHat's Kubernetes implementation) complicates the use of CVMFS
-    within the GitLab CI/CD runners.
+---
 
-  * As a result **only** the JLab-managed CVMFS software under the path
-    `/cvmfs/oasis.opensciencegrid.org/jlab/` is available for now. The usual
-    `module` commands will without modification. For example:
+### Cleanup instructions for containers {#cleanup-instructions-for-containers}
 
-  ```shell
-  module use /cvmfs/oasis.opensciencegrid.org/jlab/scicomp/sw/el9/modulefiles
-  module use /cvmfs/oasis.opensciencegrid.org/jlab/geant4/ceInstall/modulefiles
-  module use /cvmfs/oasis.opensciencegrid.org/jlab/halla/modulefiles
-  module use /cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/sw/modulefiles
+Avoid running `dnf install` or `dnf update` directly in your Dockerfile unless
+absolutely necessary. These operations consume significant disk space and slow
+down CI/CD pipelines.
 
-  etc...
-  ```
+Instead, start from an up-to-date base image:
+
+```dockerfile
+FROM registry.access.redhat.com/ubi8/ubi:latest
+```
+
+If package installation is required, clean the package cache afterward:
+
+```dockerfile
+RUN dnf install -y <package> && \
+    dnf clean all
+```
+
+Large in-place updates can create unnecessary image bloat and increase CI job
+runtime. When possible, rebuild from a newer base image instead of updating
+an old one.
+
+---
+
+### Limited CVMFS support within CI/CD jobs {#limited-cvmfs-support}
+
+All standard CVMFS mounts are available on the CI Runner as they appear on interactive farm nodes under:
+
+```
+/cvmfs/
+```
+
+Standard `module` commands work without modification. Example:
+
+```shell
+module use /cvmfs/oasis.opensciencegrid.org/jlab/scicomp/sw/el9/modulefiles
+module use /cvmfs/oasis.opensciencegrid.org/jlab/geant4/ceInstall/modulefiles
+module use /cvmfs/oasis.opensciencegrid.org/jlab/halla/modulefiles
+module use /cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/sw/modulefiles
+```
+
+---

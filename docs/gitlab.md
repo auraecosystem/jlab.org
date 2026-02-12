@@ -68,7 +68,7 @@ To create a new project:
 
 > **Note**
 > Use of the `git://git@code.jlab.org/...` URL for access to restricted repositories is recommended.  
-> See [Restricted repo access](faqs#restricted_repo) for additional detail.
+> See [Restricted repo access](faqs#restricted-repo) for additional detail.
 
 5. Click **"Create project"**.
 
