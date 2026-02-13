@@ -1,0 +1,78 @@
+---
+title: Welcome to GitLab @JLab documentation!
+slug: /
+---
+
+import Link from '@docusaurus/Link';
+import styles from '../src/css/intro.module.css';
+
+# GitLab @JLab Docs
+
+<div className={styles.grid}>
+
+  <Link className={styles.card} to="/gitlab">
+    <div className={styles.cardHeader}>
+      <span className={styles.emoji}>🦊</span>
+      <h2>GitLab @ JLab</h2>
+    </div>
+    <p>Accounts, access, instance behavior, and important local defaults (including limits).</p>
+    <span className={styles.cta}>Open GitLab docs →</span>
+  </Link>
+
+  <Link className={styles.card} to="/cicd">
+    <div className={styles.cardHeader}>
+      <span className={styles.emoji}>⚙️</span>
+      <h2>CI/CD</h2>
+    </div>
+    <p>Pipelines, runners, resource requests, and environment variables used at JLab.</p>
+    <span className={styles.cta}>Open CI/CD →</span>
+  </Link>
+
+  <Link className={styles.card} to="/pages">
+    <div className={styles.cardHeader}>
+      <span className={styles.emoji}>📄</span>
+      <h2>GitLab Pages</h2>
+    </div>
+    <p>Publish static sites, understand Pages limits, and troubleshoot common issues.</p>
+    <span className={styles.cta}>Open Pages →</span>
+  </Link>
+
+  <Link className={styles.card} to="/container_registry">
+    <div className={styles.cardHeader}>
+      <span className={styles.emoji}>📦</span>
+      <h2>Container Registry</h2>
+    </div>
+    <p>Push/pull images, auth patterns, and relevant instance constraints.</p>
+    <span className={styles.cta}>Open Registry →</span>
+  </Link>
+
+  <Link className={styles.card} to="/model_registry">
+    <div className={styles.cardHeader}>
+      <span className={styles.emoji}>🧠</span>
+      <h2>Model Registry</h2>
+    </div>
+    <p>Track, version, and share models and artifacts (when applicable in your workflows).</p>
+    <span className={styles.cta}>Open Model Registry →</span>
+  </Link>
+
+  <Link className={styles.card} to="/faqs">
+    <div className={styles.cardHeader}>
+      <span className={styles.emoji}>❓</span>
+      <h2>FAQs</h2>
+    </div>
+    <p>Short answers, troubleshooting tips, and common “why does this happen?” items.</p>
+    <span className={styles.cta}>Open FAQs →</span>
+  </Link>
+
+</div>
+
+---
+
+## Indices and search
+
+Use the search box (top navbar) to find pages by keyword (runner variables, limits, Pages, registry, etc.).
+
+<div className={styles.quickLinks}>
+  <Link className={styles.button} to="/gitlab#jlab-gitlab-limits">Jump to GitLab Limits</Link>
+  <Link className={styles.button} to="/cicd">Go to CI/CD</Link>
+</div>

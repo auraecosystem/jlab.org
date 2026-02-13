@@ -1,16 +1,28 @@
-image: python:3.7-alpine
-    
-pages:
-  stage: deploy
-  before_script:
-    - apk add --no-cache make
+stages:
+  - build
+  - deploy
+
+build_docs:
+  image: node:20
+  stage: build
   script:
-    - pip install -U sphinx sphinx-rtd-theme sphinx-copybutton
-    - make html
-    - mkdir public
-    - cp -r docs/html/* public
+    - npm ci
+    - DEPLOY_ENV=production npm run build
   artifacts:
     paths:
-     - public
+      - build/
   rules:
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+    # Only run when changes land on the default branch (e.g. after MR merge)
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+
+pages:
+  image: node:20
+  stage: deploy
+  script:
+    - mv build public
+  artifacts:
+    paths:
+      - public
+  rules:
+    # Only deploy Pages from the default branch
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
