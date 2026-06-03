@@ -1,0 +1,42 @@
+---
+id: docker-macos
+title: MacOS with Docker
+description: Basic setup information for Docker for Mac.
+---
+## Local Development: MacOS with Docker
+Running containers locally on a Mac can be a powerful way to **test** scientific software and **develop** analysis workflows before deploying them on JLab’s HPC systems.  It is not recommended to perform analysis on your local machine!  Jefferson Lab has a robust data preservation and backup strategy.  Jefferson Lab CST staff will not be able to recover lost data on your local machine. i.e. your thesis data.
+### Prerequisites
+- Install **Docker Desktop for Mac**  
+  Download from: [https://docs.docker.com/desktop/setup/install/mac-install/](https://docs.docker.com/desktop/setup/install/mac-install/)
+- Enable virtualization in your system settings if prompted.
+- After installation, verify Docker is running:
+```bash
+docker version
+```
+### Pull the Base Container
+JLab provides a tested container called `jlab-base:alma9.5`, available from the internal registry (`codecr.jlab.org`). If you're experimenting locally, you can also use a public image for testing, such as:
+```bash
+docker pull almalinux:9.5
+```
+To use JLab's image locally:
+1. First log in with a personal access token:
+```bash
+docker login codecr.jlab.org
+```
+2. Then pull the image:
+```bash
+docker pull codecr.jlab.org/scicomp/jlab-base:alma9.5
+```
+### Run a container interactively
+```bash
+docker run --rm -it \
+  -v $HOME:/home/user \
+  codecr.jlab.org/scicomp/jlab-base:alma9.5
+```
+This mounts your home directory for file access and opens an interactive shell.
+>:information_source: Notice mounting your home directory on your local Mac is different than your CUE Home on JLab computers.  This is another reason *NOT* to mount $HOME directly as `/home`.
+### Notes for MacOS Users
+- MacOS does not have a native Linux kernel. Docker uses a lightweight Linux VM underneath.
+- File access through volume mounts (-v) is slower on Mac due to file system bridging. Avoid frequent writes from inside the container if performance is critical.
+- You can bind mount any folder under $HOME, but avoid /Volumes, /System, or paths with complex ACLs.
+> :information_source: Use `.bashrc` or `entrypoint.sh` only if needed — default environments in jlab-base are often sufficient for typical workflows.
